@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: matchmaker-service-context
+  labels:
+    app: matchmaker-service-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: matchmaker-service-context

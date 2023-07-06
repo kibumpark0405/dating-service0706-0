@@ -1,0 +1,74 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: member-management-context
+          uri: http://localhost:8082
+          predicates:
+            - Path=/profiles/**, 
+        - id: matching-management-context
+          uri: http://localhost:8083
+          predicates:
+            - Path=/matchRequests/**, 
+        - id: matchmaker-service-context
+          uri: http://localhost:8085
+          predicates:
+            - Path=/matchmakerServices/**, 
+        - id: frontend
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: member-management-context
+          uri: http://memberManagementContext:8080
+          predicates:
+            - Path=/profiles/**, 
+        - id: matching-management-context
+          uri: http://matchingManagementContext:8080
+          predicates:
+            - Path=/matchRequests/**, 
+        - id: matchmaker-service-context
+          uri: http://matchmakerServiceContext:8080
+          predicates:
+            - Path=/matchmakerServices/**, 
+        - id: frontend
+          uri: http://frontend:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080

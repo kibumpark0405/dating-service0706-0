@@ -1,0 +1,171 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: member-management-context
+  labels:
+    app: member-management-context
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: member-management-context
+  template:
+    metadata:
+      labels:
+        app: member-management-context
+    spec:
+      containers:
+        - name: member-management-context
+          image: username/member-management-context:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching-management-context
+  labels:
+    app: matching-management-context
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matching-management-context
+  template:
+    metadata:
+      labels:
+        app: matching-management-context
+    spec:
+      containers:
+        - name: matching-management-context
+          image: username/matching-management-context:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matchmaker-service-context
+  labels:
+    app: matchmaker-service-context
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matchmaker-service-context
+  template:
+    metadata:
+      labels:
+        app: matchmaker-service-context
+    spec:
+      containers:
+        - name: matchmaker-service-context
+          image: username/matchmaker-service-context:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: member-management-context
+  labels:
+    app: member-management-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: member-management-context
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: matching-management-context
+  labels:
+    app: matching-management-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: matching-management-context
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: matchmaker-service-context
+  labels:
+    app: matchmaker-service-context
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: matchmaker-service-context
+
